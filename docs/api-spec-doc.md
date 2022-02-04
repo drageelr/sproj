@@ -5,8 +5,8 @@
 
 |#|Name|Description|Route|Request Object|Request Type|Response Object (Success)|
 |-|-|-|-|-|-|-|
-|1|Fetch Recon Attributes|Get the list of attributes available|`/api/recon/attributes/fetch`|`{}`|`POST`|`{attributes: [{id: Number, name: String, type: String}]}`|
+|1|Fetch Recon Attribute List|Get the list of attributes available|`/api/recon/attribute/list/fetch`|`{}`|`POST`|`{attributes: [{id: Number, name: String, type: String}]}`|
 |2|Fetch Recon Request List|Get the list of recon requests in the system|`/api/recon/request/list/fetch`|`{}`|`POST`|`{requests: [{id: Number, maxPasses: Number, passInProgress: Number, completed: Boolean}]}`|
 |3|Fetch Recon Request|Get details regarding a single instance of recon request|`/api/recon/request/fetch`|`{requestId: Number}`|`POST`|`{maxPasses: Number, passInProgress: Number, completed: Boolean}`|
 |4|Fetch Recon Request Pass|Get the data associated with a single pass of a recon request|`/api/recon/request/pass/fetch`|`{requestId: Number, passId: Number}`|`POST`|`{[{attribute: {id: Number, name: String, type: String}, data: [{tool: {id: Number, name: String, attributeUsed: {id: Number, name: String, type: String}}, results: [{id: Number, value: String/Number/Boolean}]}]}]}`|
-|5|Submit Recon Request|Initiate a new recon request|`/api/recon/attributes/fetch`|`{attributes: [{attributeId: Number, value: String/Number/Boolean}]}`|`POST`|`{id: Number}`|
+|5|Submit Recon Request|Initiate a new recon request|`/api/recon/request/submit`|`{attributes: [{attributeId: Number, value: String/Number/Boolean}]}`|`POST`|`{id: Number}`|
