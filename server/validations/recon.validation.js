@@ -27,7 +27,7 @@ exports.fetchReconRequestPass = {
 
 exports.submitReconRequest = {
     body: Joi.object({
-        attributes: Joi.object({
+        attribute: Joi.object({
             id: Joi.number().integer().required(),
             value: Joi.string().required()
         }).required(),

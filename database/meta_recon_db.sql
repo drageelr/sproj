@@ -60,8 +60,8 @@ CREATE TABLE `Pass_Result` (
   `passId` int NOT NULL,
   `requestId` int NOT NULL,
   `value` varchar(1024) NOT NULL,
-  `toolOutId` int NOT NULL,
-  `toolId` int NOT NULL,
+  `toolOutId` int DEFAULT NULL,
+  `toolId` int DEFAULT NULL,
   PRIMARY KEY (`id`,`requestId`,`passId`),
   KEY `fk_Pass_Result_1_idx` (`passId`),
   KEY `fk_Pass_Result_2_idx` (`requestId`),
@@ -147,4 +147,4 @@ CREATE TABLE `Tool_Out_Attr` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-06  1:26:07
+-- Dump completed on 2022-02-06  3:30:14
