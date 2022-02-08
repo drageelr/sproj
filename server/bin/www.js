@@ -2,7 +2,7 @@
 
 const path = require('path');
 
-if (require('dotenv').config({ path: path.join(__dirname, '.env') })) {
+if (require('dotenv').config({ path: path.join(__dirname, '../.env') })) {
     console.log('ENV Vars loaded!');
 } else {
     console.log('Failed to load ENV Vars!');
@@ -20,7 +20,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT);
 app.set('port', port);
 
 /**
