@@ -1,0 +1,13 @@
+{
+  "name": "tool-controller",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./tool-controller.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "mysql": "^2.18.1",
+    "socket.io-client": "^4.4.1"
+  }
+}
