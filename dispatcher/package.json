@@ -1,0 +1,15 @@
+{
+  "name": "dispatcher",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./dispatcher.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.4.1",
+    "validate": "^5.2.0"
+  }
+}

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `meta_recon_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `meta_recon_db`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: meta_recon_db
@@ -40,6 +42,7 @@ DROP TABLE IF EXISTS `Pass`;
 CREATE TABLE `Pass` (
   `id` int NOT NULL,
   `requestId` int NOT NULL,
+  `completed` tinyint NOT NULL DEFAULT '0',
   `createdAt` datetime NOT NULL,
   `completedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`requestId`),
@@ -62,15 +65,18 @@ CREATE TABLE `Pass_Result` (
   `value` varchar(1024) NOT NULL,
   `toolOutId` int DEFAULT NULL,
   `toolId` int DEFAULT NULL,
+  `inAttrId` int DEFAULT NULL,
   PRIMARY KEY (`id`,`requestId`,`passId`),
   KEY `fk_Pass_Result_1_idx` (`passId`),
   KEY `fk_Pass_Result_2_idx` (`requestId`),
   KEY `fk_Pass_Result_3_idx` (`toolOutId`),
   KEY `fk_Pass_Result_4_idx` (`toolId`),
+  KEY `fk_Pass_Result_5_idx` (`inAttrId`),
   CONSTRAINT `fk_Pass_Result_1` FOREIGN KEY (`passId`) REFERENCES `Pass` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Pass_Result_2` FOREIGN KEY (`requestId`) REFERENCES `Request` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Pass_Result_3` FOREIGN KEY (`toolOutId`) REFERENCES `Tool_Out_Attr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Pass_Result_4` FOREIGN KEY (`toolId`) REFERENCES `Tool` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Pass_Result_4` FOREIGN KEY (`toolId`) REFERENCES `Tool` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_Pass_Result_5` FOREIGN KEY (`inAttrId`) REFERENCES `In_Attr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -86,6 +92,7 @@ CREATE TABLE `Request` (
   `maxPasses` int NOT NULL,
   `completed` tinyint NOT NULL DEFAULT '0',
   `createdAt` datetime NOT NULL,
+  `completedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -100,7 +107,10 @@ DROP TABLE IF EXISTS `Tool`;
 CREATE TABLE `Tool` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `api` varchar(64) NOT NULL,
+  `host` varchar(128) NOT NULL,
+  `port` int NOT NULL,
+  `endpoint` varchar(1024) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `inAttrId` int NOT NULL,
   `active` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -147,4 +157,4 @@ CREATE TABLE `Tool_Out_Attr` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-06  3:30:14
+-- Dump completed on 2022-02-08 20:47:43
