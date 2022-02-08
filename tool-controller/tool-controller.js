@@ -11,6 +11,6 @@ if (require('dotenv').config({ path: path.join(__dirname, '.env') })) {
 const db = require('./services/mysql');
 const io = require('socket.io-client');
 // Initialize socket IO client
-const socket = io("ws://localhost:" + process.env.DSP_PORT + '/?type=tool&password=' + process.env.TOOL_ID + '&toolId=' + process.env.TOOL_PASSWORD);
+const socket = io("ws://localhost:" + process.env.DSP_PORT + '/?type=tool&password=' + process.env.TOOL_PASSWORD + '&toolId=' + process.env.TOOL_ID);
 // Connect with the databse
 db.con.connect();
