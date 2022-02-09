@@ -1,5 +1,5 @@
 # Architecture
-![Architecture Image](https://github.com/drageelr/sproj/blob/main/resources/architecture.png)
+![Architecture Image](../resources/architecture.png)
 
 ## NGINX - Web Server
 The NGINX (Web Server) has 2 purposes:
