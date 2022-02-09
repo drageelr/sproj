@@ -14,3 +14,19 @@ const io = require('socket.io-client');
 const socket = io("ws://localhost:" + process.env.DSP_PORT + '/?type=tool&password=' + process.env.TOOL_PASSWORD + '&toolId=' + process.env.TOOL_ID);
 // Connect with the databse
 db.con.connect();
+
+socket.on('RES|job-dispatched', (res) => {
+    /**
+     * res = {requestId: Int, passId: Int, passResultId: Int}
+     */
+    console.log(res);
+
+    /**
+     * Write implementation here for Tool Script integration
+     */
+
+    /**
+     * Notify server when job is done
+     */
+    socket.emit('REQ|job-completed', res);
+})
