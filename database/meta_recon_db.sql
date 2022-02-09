@@ -107,9 +107,6 @@ DROP TABLE IF EXISTS `Tool`;
 CREATE TABLE `Tool` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `host` varchar(128) NOT NULL,
-  `port` int NOT NULL,
-  `endpoint` varchar(1024) NOT NULL,
   `password` varchar(64) NOT NULL,
   `inAttrId` int NOT NULL,
   `active` tinyint NOT NULL DEFAULT '1',
@@ -157,4 +154,4 @@ CREATE TABLE `Tool_Out_Attr` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-08 20:47:43
+-- Dump completed on 2022-02-09 13:34:16

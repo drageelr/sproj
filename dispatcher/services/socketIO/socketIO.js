@@ -5,10 +5,10 @@ const IOreqhandlers = require('./socketIOreqhandlers');
 
 const reqEvents = {
     // Request Management
-    // 'req-submit': IOreqhandlers.handleRequestSubmit,
+    'req-submit': IOreqhandlers.handleRequestSubmit,
 
     // Job Management
-    // 'job-completed': IOreqhandlers.handleJobCompleted,
+    'job-completed': IOreqhandlers.handleJobCompleted,
 
     //Network Management
     'net-ping': IOreqhandlers.handleNetPing,

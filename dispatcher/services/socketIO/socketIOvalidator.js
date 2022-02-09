@@ -23,6 +23,10 @@ const validations = {
         passId: {
             type: Number,
             required: true
+        },
+        passResultId: {
+            type: Number,
+            required: true
         }
     }),
 
