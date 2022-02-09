@@ -134,12 +134,18 @@ exports.submitReconRequest = async (req, res, next) => {
 
         let reqRequest = await db.query('INSERT INTO Request (maxPasses, createdAt) VALUES (' + params.maxPasses + ', NOW());');
 
-        let reqPass = await db.query('INSERT INTO Pass (id, requestId, createdAt) VALUES (0, ' + reqRequest.insertId + ', NOW());');
+        let reqPass = await db.query('INSERT INTO Pass (id, requestId, createdAt, completed) VALUES (0, ' + reqRequest.insertId + ', NOW(), TRUE);');
 
-        await db.query('INSERT INTO Pass_Result (id, passId, requestId, value, inAttrId) VALUES (1, ' + reqPass.insertId + ', ' + reqRequest.insertId + ', ' + params.attribute.value + ', ' + params.attribute.id + ');');
+        await db.query('INSERT INTO Pass_Result (id, passId, requestId, value, inAttrId) VALUES (1, ' + reqPass.insertId + ', ' + reqRequest.insertId + ', "' + params.attribute.value + '", ' + params.attribute.id + ');');
         
         // Fetch the relevant tool apis and initiate them by sending them requestId and passId - TODO
         // Note this logic will also be repeated in docker. But would have to apply number of passes constraint in order to restrict infinite loop - TODO
+
+        // socket.soc.emit('REQ|req-submit', {
+        //     requestId: reqRequest.insertId,
+        //     passId: reqPass.insertId
+        // })
+
 
         res.json({
             statusCode: 200,

@@ -7,35 +7,35 @@ const reconController = require('../controllers/recon.controller');
 router.post(
     '/attribute/list/fetch',
     validate(reconValidation.fetchReconAttributeList, { keyByField: true }),
-    // reconController.fetchReconAttributeList
+    reconController.fetchReconAttributeList
 );
 
 // API 1.2: Fetch Recon Request List
 router.post(
     '/request/list/fetch',
     validate(reconValidation.fetchReconRequestList, { keyByField: true }),
-    // reconController.fetchReconRequestList
+    reconController.fetchReconRequestList
 );
 
 // API 1.3: Fetch Recon Request
 router.post(
     '/request/fetch',
     validate(reconValidation.fetchReconRequest, { keyByField: true }),
-    // reconController.fetchReconRequest
+    reconController.fetchReconRequest
 );
 
 // API 1.4: Fetch Recon Request Pass
 router.post(
     '/request/pass/fetch',
     validate(reconValidation.fetchReconRequestPass, { keyByField: true }),
-    // reconController.fetchReconRequestPass
+    reconController.fetchReconRequestPass
 );
 
 // API 1.5: Submit Recon Request
 router.post(
     '/request/submit',
-    validate(reconValidation.fetchReconRequestPass, { keyByField: true }),
-    // reconController.fetchReconRequestPass
+    validate(reconValidation.submitReconRequest, { keyByField: true }),
+    reconController.submitReconRequest
 );
 
 module.exports = router;
