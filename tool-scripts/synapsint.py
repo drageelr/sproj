@@ -2,6 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 import os 
+import warnings
+import json
+
 
 
 class SynapsInt:
@@ -11,10 +14,10 @@ class SynapsInt:
 
     def search(self):
         osintResults = {}
-        path = os.getcwd() + "/chromedriver"
+        # path = os.getcwd() + "/chromedriver"
         options = Options()
         options.headless = True
-        driver = webdriver.Chrome(path,options=options) 
+        driver = webdriver.Chrome(options=options) 
         driver.get('https://synapsint.com/')
 
         # Search box
@@ -62,11 +65,11 @@ class SynapsInt:
 
     
 def main():
-    osint = SynapsInt("email","+923000322311")
-    print(osint.search())
-
-    # # Wait for 5 seconds (for debugging)
-    # time.sleep(5)
+    warnings.filterwarnings("ignore")
+    osint = SynapsInt("email","22100278@lums.edu.pk")
+    json_object = json.dumps(osint.search(), indent=2)
+    print(json_object)
+    # print(osint.search())
 
 
 
