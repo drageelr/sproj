@@ -4,7 +4,7 @@ import time
 import os 
 import warnings
 import json
-
+import sys
 
 
 class SynapsInt:
@@ -64,9 +64,9 @@ class SynapsInt:
         return osintResults
 
     
-def main():
+def main(email):
     warnings.filterwarnings("ignore")
-    osint = SynapsInt("email","22100278@lums.edu.pk")
+    osint = SynapsInt("email",email)
     json_object = json.dumps(osint.search(), indent=2)
     print(json_object)
     # print(osint.search())
@@ -75,4 +75,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1])
