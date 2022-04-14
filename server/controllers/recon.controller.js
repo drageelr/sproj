@@ -1,6 +1,6 @@
 const db = require('../services/mysql');
 const customError = require('../errors/errors');
-const socket = require('../services/socketIO').socket
+const socket = require('../services/socketIO').socket // Temp commit
 
 exports.fetchReconAttributeList = async (req, res, next) => {
     try {
