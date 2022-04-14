@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 
 const { errorHandler } = require('./errors/errorhandler');
 const db = require('./services/mysql');
-const { connect, socket } = require('./services/socketIO');
+// const { connect, socket } = require('./services/socketIO');
 
 const reconRouter = require('./routes/recon.route');
 
@@ -18,6 +18,6 @@ app.use('/api/recon', reconRouter);
 app.use(errorHandler);
 
 db.con.connect();
-connect();
+// connect();
 
 module.exports = app;

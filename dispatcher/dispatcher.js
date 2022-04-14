@@ -46,6 +46,7 @@ io.on('connection', async socket => {
         }
 
         if (conType == 'server') {
+            console.log('REQ PASS:', password)
             if (password != process.env.API_SERVER_PASS) { throw new customError.AuthenticationError('invalid password for api server'); }
             if (!addServer(socket.id)) { throw new customError.DuplicateResourceError('duplicate connection error'); }
         } 

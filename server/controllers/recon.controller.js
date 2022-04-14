@@ -1,5 +1,6 @@
 const db = require('../services/mysql');
 const customError = require('../errors/errors');
+const socket = require('../services/socketIO').socket
 
 exports.fetchReconAttributeList = async (req, res, next) => {
     try {
@@ -75,52 +76,69 @@ exports.fetchReconRequestPass = async (req, res, next) => {
         let reqToolInfo = await Promise.all([db.query('SELECT DISTINCT id, name FROM Tool WHERE id IN (SELECT toolId FROM Pass_Result WHERE requestId = ' + params.requestId + ' AND passId  = ' + params.passId + ');'), db.query('SELECT DISTINCT id, name, type, toolId FROM Tool_Out_Attr WHERE toolId IN (SELECT toolId FROM Pass_Result WHERE requestId = ' + params.requestId + ' AND passId  = ' + params.passId + ');')]);
         
         let toolMap = {};
-        // Map tools
-        for (let i = 0; i < reqToolInfo[0].length; i++) {
-            toolMap[reqToolInfo[0][i].id] = {
-                id: reqToolInfo[0][i].id,
-                name: reqToolInfo[0][i].name,
-                attrs: {},
-                result: []
-            }
-        };
 
-        // Map tool_out_attrs
-        for (let i = 0; i < reqToolInfo[1].length; i++) {
-            toolMap[reqToolInfo[1][i].toolId].attrs[reqToolInfo[1][i].toolOutId] = {
-                id: reqToolInfo[1][i].toolOutId,
-                name: reqToolInfo[1][i].name,
-                type: reqToolInfo[1][i].type
+        if (!reqToolInfo[0].length) {
+            let inputData = await db.query('SELECT name, type FROM In_Attr WHERE id = ' + reqPassResult[0].inAttrId)
+            res.json({
+                statusCode: 201,
+                message: 'Request List Fetched Successfully!',
+                data: {
+                    input: {
+                        name: inputData[0].name,
+                        type: inputData[0].type,
+                        value: reqPassResult[0].value
+                    }
+                }
+            })
+        } else {
+            // Map tools
+            for (let i = 0; i < reqToolInfo[0].length; i++) {
+                toolMap[reqToolInfo[0][i].id] = {
+                    id: reqToolInfo[0][i].id,
+                    name: reqToolInfo[0][i].name,
+                    attrs: {},
+                    result: []
+                }
+            };
+    
+            // Map tool_out_attrs
+            for (let i = 0; i < reqToolInfo[1].length; i++) {
+                toolMap[reqToolInfo[1][i].toolId].attrs[reqToolInfo[1][i].toolOutId] = {
+                    id: reqToolInfo[1][i].toolOutId,
+                    name: reqToolInfo[1][i].name,
+                    type: reqToolInfo[1][i].type
+                }
             }
-        }
-
-        // Map result
-        for (let i = 0; i < reqPassResult.length; i++) {
-            let attr = toolMap[reqPassResult[i].toolId].attrs[reqPassResult[i].toolOutId];
-            toolMap[reqPassResult[i].toolId].result.append({
-                name: attr.name,
-                type: attr.type,
-                value: reqPassResult[i].value
+    
+            // Map result
+            for (let i = 0; i < reqPassResult.length; i++) {
+                let attr = toolMap[reqPassResult[i].toolId].attrs[reqPassResult[i].toolOutId];
+                toolMap[reqPassResult[i].toolId].result.append({
+                    name: attr.name,
+                    type: attr.type,
+                    value: reqPassResult[i].value
+                });
+            }
+    
+            // Convert to array
+            let tools = [];
+            for (let i of toolMap) {
+                tools.append({
+                    id: toolMap[i].id,
+                    name: toolMap[i].name,
+                    result: toolMap[i].result
+                });
+            }
+    
+            res.json({
+                statusCode: 200,
+                message: 'Request List Fetched Successfully!',
+                data: {
+                    tools: tools
+                }
             });
         }
 
-        // Convert to array
-        let tools = [];
-        for (let i of toolMap) {
-            tools.append({
-                id: toolMap[i].id,
-                name: toolMap[i].name,
-                result: toolMap[i].result
-            });
-        }
-
-        res.json({
-            statusCode: 200,
-            message: 'Request List Fetched Successfully!',
-            data: {
-                tools: tools
-            }
-        });
     } catch (err) {
         next(err);
     }
@@ -141,11 +159,10 @@ exports.submitReconRequest = async (req, res, next) => {
         // Fetch the relevant tool apis and initiate them by sending them requestId and passId - TODO
         // Note this logic will also be repeated in docker. But would have to apply number of passes constraint in order to restrict infinite loop - TODO
 
-        // socket.soc.emit('REQ|req-submit', {
-        //     requestId: reqRequest.insertId,
-        //     passId: reqPass.insertId
-        // })
-
+        socket.emit('REQ|req-submit', {
+            requestId: reqRequest.insertId,
+            passId: reqPass.insertId
+        })
 
         res.json({
             statusCode: 200,
