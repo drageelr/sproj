@@ -103,8 +103,8 @@ exports.fetchReconRequestPass = async (req, res, next) => {
     
             // Map tool_out_attrs
             for (let i = 0; i < reqToolInfo[1].length; i++) {
-                toolMap[reqToolInfo[1][i].toolId].attrs[reqToolInfo[1][i].toolOutId] = {
-                    id: reqToolInfo[1][i].toolOutId,
+                toolMap[reqToolInfo[1][i].toolId].attrs[reqToolInfo[1][i].id] = {
+                    id: reqToolInfo[1][i].id,
                     name: reqToolInfo[1][i].name,
                     type: reqToolInfo[1][i].type
                 }
@@ -113,7 +113,7 @@ exports.fetchReconRequestPass = async (req, res, next) => {
             // Map result
             for (let i = 0; i < reqPassResult.length; i++) {
                 let attr = toolMap[reqPassResult[i].toolId].attrs[reqPassResult[i].toolOutId];
-                toolMap[reqPassResult[i].toolId].result.append({
+                toolMap[reqPassResult[i].toolId].result.push({
                     name: attr.name,
                     type: attr.type,
                     value: reqPassResult[i].value
@@ -122,8 +122,8 @@ exports.fetchReconRequestPass = async (req, res, next) => {
     
             // Convert to array
             let tools = [];
-            for (let i of toolMap) {
-                tools.append({
+            for (let i in toolMap) {
+                tools.push({
                     id: toolMap[i].id,
                     name: toolMap[i].name,
                     result: toolMap[i].result
