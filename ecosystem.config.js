@@ -1,7 +1,7 @@
 module.exports = {
     apps : [{
       name   : "dispatcher",
-      script : "./dispatcher.js"
+      script : "./dispatcher/dispatcher.js"
     },{
       name   : "server",
       script : "./server/bin/www.js"
