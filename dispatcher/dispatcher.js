@@ -67,6 +67,8 @@ io.on('connection', async socket => {
         // Attach Event Listeners - [socketIOreqhandlers.js]
         attachEventListeners(socket);
 
+        socket.join('/')
+
         // Send back an acknowledgement
         socket.emit('RES|net-connected');
 

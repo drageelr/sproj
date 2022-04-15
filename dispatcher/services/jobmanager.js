@@ -30,7 +30,7 @@ function addPassResult(requestId, passId, passResultId, toolJobIds) {
     for (let i = 0; i < toolJobIds.length; i++) {
         toolJobsObj[toolJobIds[i]] = 0;
     }
-    jobs[requestId + '-' + passId][passResultId] = toolJobs;
+    jobs[requestId + '-' + passId][passResultId] = toolJobsObj;
     return true;
 }
 
@@ -62,7 +62,7 @@ function allReqPassCompleted(requestId, passId) {
 
 function emitToSocket(socketId, event, data = undefined) {
     const { io } = require('../dispatcher');
-    let sockets = io.of().sockets;
+    let sockets = io.of('/').sockets;
     let socket = sockets.get(socketId);
     let resEvent = "RES|" + event;
     if (socket) {
@@ -85,7 +85,7 @@ exports.initReqPass = async (requestId, passId) => {
     
         if (reqPassExists(requestId, passId)) { throw new customError.BadRequestError('request pass already in progress'); }
 
-        let reqInputs = await db.query('SELECT id, inAttrId FROM Pass_Result WHERE passId = ' + passId + ' AND requestId = ' + requestId + ' AND (inAttrId != NULL);');
+        let reqInputs = await db.query('SELECT id, inAttrId FROM Pass_Result WHERE passId = ' + passId + ' AND requestId = ' + requestId + ' AND (inAttrId IS NOT NULL);');
 
         if (!reqInputs.length) { throw new customError.BadRequestError('not enough pass inputs'); }
 

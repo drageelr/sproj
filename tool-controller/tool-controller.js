@@ -30,13 +30,22 @@ socket.on('RES|job-dispatched', async (res) => {
      * Write implementation here for Tool Script integration
      */
 
-    exec('python3 ../tool-scripts/synapsint.py hammadn99@gmail.com', async (error, stdout, stderr) => {
+    exec('python3 ../tool-scripts/synapsint.py ' + reqValue[0].value, async (error, stdout, stderr) => {
         const result = JSON.parse(stdout);
         console.log(result);
         
+        if (!((await db.query('SELECT id FROM Pass WHERE id = ' + res.passId + ';')).length)) {
+            try {
+                await db.query('INSERT INTO Pass (id, requestId, createdAt) VALUES (' + res.passId + ', ' + res.requestId + ', NOW());')
+            } catch(err) {
+                console.log(err)
+            }
+        }
+
         let i = 1;
         for (let attr in result) {
-            await db.query('INESRT INTO Pass_Result (id, passId, requestId, value, toolOutId, toolId) VALUES (SELECT MAX(id) + 1 FROM Pass_Result WHERE passId = ' + res.passId + ' AND requestId = ' + res.requestId + ', ' + res.passId + ', ' + res.requestId + ', ' + reqValue[0].value + ', ' + i + ', ' + process.env.TOOL_ID + ');');
+            console.log('attr', i, attr)
+            await db.query('INSERT INTO Pass_Result (passId, requestId, value, toolOutId, toolId) VALUES (' + res.passId + ', ' + res.requestId + ', "' + attr + '", ' + i + ', ' + process.env.TOOL_ID + ');');
             i++;
         }
         
