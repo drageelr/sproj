@@ -53,7 +53,8 @@ function updateToolJob(requestId, passId, passResultId, toolId, status) {
 
 function allReqPassCompleted(requestId, passId) {
     for (let passResultId in jobs[requestId + '-' + passId]) {
-        for (let status of jobs[requestId + '-' + passId][passResultId]) {
+        for (let toolId in jobs[requestId + '-' + passId][passResultId]) {
+            const status = jobs[requestId + '-' + passId][passResultId][toolId]
             if (!status) { return false; }
         }
     }
@@ -81,7 +82,7 @@ exports.initReqPass = async (requestId, passId) => {
             db.query('SELECT id FROM Pass WHERE completed = TRUE AND id = ' + passId + ' AND requestId = ' + requestId + ';')
         ]);
 
-        if (!reqValidate[0].length || !reqValidate[0].length) { throw new customError.BadRequestError('request already completed or pass is incomplete'); }
+        if (!reqValidate[0].length || !reqValidate[1].length) { throw new customError.BadRequestError('request already completed or pass is incomplete'); }
     
         if (reqPassExists(requestId, passId)) { throw new customError.BadRequestError('request pass already in progress'); }
 
@@ -91,13 +92,20 @@ exports.initReqPass = async (requestId, passId) => {
 
         let noToolsFound = true;
         let newPassId = passId + 1;
+        let newPassCreated = false;
         addReqPass(requestId, newPassId);
         for (let i = 0; i < reqInputs.length; i++) {
             let reqTools = await db.query('SELECT id FROM Tool WHERE inAttrId = ' + reqInputs[i].inAttrId + ' AND active = TRUE;');
             let toolJobIds = reqTools.map((tool) => {
                 return tool.id;
             });
-            if (reqTools.length) { noToolsFound = false; }
+            if (reqTools.length) {
+                noToolsFound = false;
+                if (!newPassCreated) {
+                    await db.query('INSERT INTO Pass (id, requestId, createdAt, completed) VALUES (' + newPassId + ', ' + requestId + ', NOW(), FALSE);');
+                    newPassCreated = true;
+                }
+            }
             addPassResult(requestId, newPassId, reqInputs[i].id, toolJobIds);
             for (let j = 0; j < toolJobIds.length; j++) {
                 // Dispatch job via socket io
@@ -128,9 +136,10 @@ exports.jobCompleted = async (requestId, passId, passResultId, toolId) => {
         if (!updateToolJob(requestId, passId, passResultId, toolId, 1)) { throw new customError.BadRequestError('something went wrong while completing the job'); }
 
         if (allReqPassCompleted(requestId, passId)) {
-            await db.query('UPDATE Pass SET completed = TRUE WHERE id = ' + passId + ' AND requestId = ' + requestId + ';');
-            if (!(this.initReqPass(requestId, passId))) {
-                await db.query('UPDATE Request SET completed = TRUE WHERE id = ' + params.requestId + ';');
+            await db.query('UPDATE Pass SET completed = TRUE, completedAt = NOW() WHERE id = ' + passId + ' AND requestId = ' + requestId + ';');
+            removeReqPass(requestId, passId)
+            if (await this.initReqPass(requestId, passId) == false) {
+                await db.query('UPDATE Request SET completed = TRUE, completedAt = NOW() WHERE id = ' + requestId + ';');
             }
         }
 

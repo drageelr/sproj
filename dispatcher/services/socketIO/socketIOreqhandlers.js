@@ -20,8 +20,8 @@ function emitToSocket(socketId, event, data = undefined) {
 exports.handleRequestSubmit = async (socket, params, event) => {
     try {
         
-        if (!initReqPass(params.requestId, params.passId)) {
-            await db.query('UPDATE Request SET completed = TRUE WHERE id = ' + params.requestId + ';');
+        if (!(await initReqPass(params.requestId, params.passId))) {
+            await db.query('UPDATE Request SET completed = TRUE, completedAt = NOW() WHERE id = ' + params.requestId + ';');
             throw new customError.BadRequestError('unable to start request');
         }
 
@@ -36,7 +36,7 @@ exports.handleJobCompleted = async (socket, params, event) => {
         // Toggle the service's completed function here
         let nodeObj = socket.nodeObj;
 
-        jobCompleted(params.requestId, params.passId, params.passResultId, nodeObj.toolId);
+        await jobCompleted(params.requestId, params.passId, params.passResultId, nodeObj.toolId);
     } catch(err) {
         return [{}, err];
     }

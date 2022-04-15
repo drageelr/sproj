@@ -152,7 +152,7 @@ exports.submitReconRequest = async (req, res, next) => {
 
         let reqRequest = await db.query('INSERT INTO Request (maxPasses, createdAt) VALUES (' + params.maxPasses + ', NOW());');
 
-        let reqPass = await db.query('INSERT INTO Pass (id, requestId, createdAt, completed) VALUES (0, ' + reqRequest.insertId + ', NOW(), TRUE);');
+        let reqPass = await db.query('INSERT INTO Pass (id, requestId, createdAt, completed, completedAt) VALUES (0, ' + reqRequest.insertId + ', NOW(), TRUE, NOW());');
 
         await db.query('INSERT INTO Pass_Result (id, passId, requestId, value, inAttrId) VALUES (1, ' + reqPass.insertId + ', ' + reqRequest.insertId + ', "' + params.attribute.value + '", ' + params.attribute.id + ');');
         
