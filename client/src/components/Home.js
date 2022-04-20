@@ -123,8 +123,9 @@ function Home({setSnackbar}) {
                                     error={formikSubmit.touched.id && Boolean(formikSubmit.errors.id)}
                                     helperText={formikSubmit.touched.id && formikSubmit.errors.id}
                                   >
+                                    <option style={{fontSize: 16}} value={0}>None</option>
                                     {
-                                        attrs.map((obj) => (
+                                        attrs.map((obj, i) => (
                                             <option style={{fontSize: 16}} value={obj.id}>{obj.name}</option>
                                         ))
                                     }
