@@ -23,8 +23,8 @@ const validationSchemaSubmit = yup.object({
     .required('Attribute is required')
 });
 
-function Home() {
-    const [attrs, setAttrs] = useState([]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
+function Home({setSnackbar}) {
+    const [attrs, setAttrs] = useState([{id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
 
     const colorText1 = '#fcfefe';
     const colorText2 = '#97989c';
@@ -39,6 +39,7 @@ function Home() {
                 setAttrs(data.attributes);
             } else {
                 console.log(err);
+                setSnackbar({msg: 'Attribute Error: ' + err, type: 'error'});
             }
         })
     }, []);
@@ -95,7 +96,8 @@ function Home() {
             if (err === undefined) {
 
             } else {
-
+                console.log(err);
+                setSnackbar({msg: 'Submission Error: ' + err, type: 'error'});
             }
         }
     });
