@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardActions, Typography, Grid, TextField, Button, NativeSelect, Divider } from '@mui/material';    
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -32,6 +32,16 @@ function Home() {
     const colorPrimary = '#00abc6';
     const colorQuaternary = '#17c0dc';
     const colorQuinary = '#277a8f';
+
+    useEffect(() => {
+        apiCaller('/api/recon/attribute/list/fetch').then(([data, err]) => {
+            if (err === undefined) {
+                setAttrs(data.attributes);
+            } else {
+                console.log(err);
+            }
+        })
+    }, []);
 
     const textLabel = {
         flexGrow: 1,
