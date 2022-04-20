@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Card, CardContent, CardActions, Typography, Grid, TextField, Button } from '@mui/material';    
+import { Card, CardContent, CardActions, Typography, Grid, TextField, Button, NativeSelect, Divider } from '@mui/material';    
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { apiCaller } from '../apiCaller';
 
 const validationSchemaSubmit = yup.object({
     id: yup
@@ -23,7 +24,7 @@ const validationSchemaSubmit = yup.object({
 });
 
 function Home() {
-    const [attrs, setAttrs] = useState([]);
+    const [attrs, setAttrs] = useState([]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
 
     const colorText1 = '#fcfefe';
     const colorText2 = '#97989c';
@@ -59,6 +60,19 @@ function Home() {
         },
     }
 
+    const selectColor = {
+        '&:before': {
+            borderColor: colorQuinary,
+        },
+        '&:not(.Mui-disabled):hover::before': {
+            borderColor: colorQuaternary,
+        },
+        '&:after': {
+            borderColor: colorPrimary,
+        },
+        color: colorText3
+    }
+
     const formikSubmit = useFormik({
         initialValues: {
             id: 0,
@@ -67,18 +81,42 @@ function Home() {
         },
         validationSchema: validationSchemaSubmit,
         onSubmit: async (values) => {
-          
+            const [data, err] = await apiCaller('/api/recon/request/submit', {attribute: values});
+            if (err === undefined) {
+
+            } else {
+
+            }
         }
     });
 
     return (
         <Grid container direction='column' justifyContent='center' alignItems='center' alignContent='center' alignSelf='center' pt={20}>
             <Grid item>
-                <Card elevation={2} sx={{backgroundColor: '#282835', width: 520, maxHeight: 500,}}>
+                <Card elevation={2} sx={{backgroundColor: '#282835', width: 520, maxHeight: 600,}}>
                     <CardContent>
                         <Grid container direction='column' spacing={2}>
                             <Grid item>
                                 <Typography sx={textLabel}>Attribute</Typography>
+                                <NativeSelect
+                                    variant = "outlined"
+                                    style={{ width: 490, fontSize: 12}}
+                                    inputProps={{
+                                      name: 'Attribute',
+                                      id: 'uncontrolled-native',
+                                    }}
+                                    sx={selectColor}
+                                    onChange={formikSubmit.handleChange('id')}
+                                    value={formikSubmit.values.id}
+                                    error={formikSubmit.touched.id && Boolean(formikSubmit.errors.id)}
+                                    helperText={formikSubmit.touched.id && formikSubmit.errors.id}
+                                  >
+                                    {
+                                        attrs.map((obj) => (
+                                            <option style={{fontSize: 16}} value={obj.id}>{obj.name}</option>
+                                        ))
+                                    }
+                                  </NativeSelect>
                             </Grid>
                             <Grid item>
                                 <Typography sx={textLabel}>Value</Typography>
@@ -117,14 +155,19 @@ function Home() {
                                   color="background"
                                   variant="outlined"
                                   sx={textStyle}
-                                  InputProps={{sx: {fontSize: 16}}}
-                                  InputLabelProps={{sx: {fontSize: 16}}}
+                                  InputProps={{sx: {fontSize: 16, color: colorText1}}}
+                                  InputLabelProps={{sx: {fontSize: 16, color: colorText2}}}
                                   />                                
                             </Grid>
                         </Grid>
                     </CardContent>
+                    <Divider sx={{backgroundColor: colorPrimary}}/>
                     <CardActions>
-
+                        <Grid container justifyContent='flex-end' alignItems='right' spacing={2}>
+                            <Grid item>
+                                <Button variant='contained' sx={{color: colorText1, backgroundColor: colorQuinary, '&:hover': {backgroundColor: colorPrimary}}} onClick={formikSubmit.handleSubmit}>Submit</Button>
+                            </Grid>
+                        </Grid>
                     </CardActions>
                 </Card>
             </Grid>
