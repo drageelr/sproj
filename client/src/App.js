@@ -10,7 +10,9 @@ function App() {
             <NavBar/>
             <Routes>
                 <Route path='/' element={<Home/>}/>
-                <Route path='/requests' element={<h1>Requests Page</h1>}/>
+                <Route path='/request-list' element={<h1>Requests Page</h1>}/>
+                <Route path='/request'/>
+                <Route path='/pass'/>
             </Routes>
         </Router>
     )

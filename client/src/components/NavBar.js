@@ -69,14 +69,14 @@ function NavBar() {
                 </Grid>
             </Toolbar>
 
-            <Drawer PaperProps={{sx: {width: 100, background: '#1d2027'}}} anchor='left' open={openDrawer} onClose={handleCloseDrawer}>
+            <Drawer PaperProps={{sx: {width: 120, background: '#1d2027'}}} anchor='left' open={openDrawer} onClose={handleCloseDrawer}>
                 <Grid container direction='row' justifyContent='center' sx={{pt: 2}}>
                     <CameraIcon fontSize='large' color='quaternary'/>
                 </Grid>
                 <Divider sx={{backgroundColor: '#00abc6', mt: 1.5}}/>
                 <Grid container direction='column' justifyContent='flex-end' sx={{pt: 2}}>
                     <RoundLinkButton link={'/'} icon={<HomeIcon fontSize='large'/>} title={'Home'}/>
-                    <RoundLinkButton link={'/requests'} icon={<ViewListIcon fontSize='large'/>} title={'Requests'}/>
+                    <RoundLinkButton link={'/request-list'} icon={<ViewListIcon fontSize='large'/>} title={'Request List'}/>
                 </Grid>
                 <Divider sx={{backgroundColor: '#00abc6'}}/>
             </Drawer>
