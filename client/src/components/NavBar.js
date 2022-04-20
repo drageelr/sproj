@@ -35,7 +35,7 @@ function NavBar() {
             <Grid container direction='column' alignItems='center' sx={{pb: 2}}>
                 <Grid item> 
                     <Link to={link}>
-                        <IconButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={handleCloseDrawer} sx={{backgroundColor: '#282835', '&:hover, &.Mui-focusVisible': { backgroundColor: '#17c0dc'}}}>
+                        <IconButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={handleCloseDrawer} sx={{backgroundColor: '#1d2027', '&:hover, &.Mui-focusVisible': { backgroundColor: '#17c0dc'}}}>
                             {cloneElement(icon, {sx: {color: color}})}
                         </IconButton>
                     </Link>
@@ -69,7 +69,7 @@ function NavBar() {
                 </Grid>
             </Toolbar>
 
-            <Drawer PaperProps={{sx: {width: 100, background: '#282835'}}} anchor='left' open={openDrawer} onClose={handleCloseDrawer}>
+            <Drawer PaperProps={{sx: {width: 100, background: '#1d2027'}}} anchor='left' open={openDrawer} onClose={handleCloseDrawer}>
                 <Grid container direction='row' justifyContent='center' sx={{pt: 2}}>
                     <CameraIcon fontSize='large' color='quaternary'/>
                 </Grid>
