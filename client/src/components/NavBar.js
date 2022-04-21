@@ -1,14 +1,17 @@
 import { useState, cloneElement } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Grid, IconButton, Drawer, Divider, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
 import CameraIcon from '@mui/icons-material/Camera';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import DataUsageIcon from '@mui/icons-material/DataUsage';
 
-function NavBar() {
+function NavBar({resetStates}) {
     const [openDrawer, setOpenDrawer] = useState(false);
+
+    const navigate = useNavigate();
 
     const colorText1 = '#fcfefe';
     const colorText2 = '#97989c';
@@ -32,14 +35,18 @@ function NavBar() {
             setColor(colorText2);
         }
 
+        const onClick = () => {
+            handleCloseDrawer();
+            resetStates();
+            navigate(link, { replace: true });
+        }
+
         return (
             <Grid container direction='column' alignItems='center' sx={{pb: 2}}>
                 <Grid item> 
-                    <Link to={link}>
-                        <IconButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={handleCloseDrawer} sx={{backgroundColor: '#1d2027', '&:hover, &.Mui-focusVisible': { backgroundColor: '#17c0dc'}}}>
-                            {cloneElement(icon, {sx: {color: color}})}
-                        </IconButton>
-                    </Link>
+                    <IconButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onClick} sx={{backgroundColor: '#1d2027', '&:hover, &.Mui-focusVisible': { backgroundColor: '#17c0dc'}}}>
+                        {cloneElement(icon, {sx: {color: color}})}
+                    </IconButton>
                 </Grid>
                 <Grid item>
                     <Typography variant='h6' sx={{color: color}}>
@@ -79,6 +86,7 @@ function NavBar() {
                     <RoundLinkButton link={'/'} icon={<HomeIcon fontSize='large'/>} title={'Home'}/>
                     <RoundLinkButton link={'/request-list'} icon={<ViewListIcon fontSize='large'/>} title={'Request List'}/>
                     <RoundLinkButton link={'/request'} icon={<FindInPageIcon fontSize='large'/>} title={'Request'}/>
+                    <RoundLinkButton link={'/pass'} icon={<DataUsageIcon fontSize='large'/>} title={'Pass'}/>
                 </Grid>
                 <Divider sx={{backgroundColor: '#00abc6'}}/>
             </Drawer>

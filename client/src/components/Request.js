@@ -82,10 +82,10 @@ const keys = {
 
 const validationSchemaFetch = yup.object({
     id: yup
-    .number('Select a valid attribute')
-    .integer('Select a valid attribute please')
-    .min(1, 'Attribute should not be None')
-    .required('Attribute is required')
+    .number('Enter a valid id')
+    .integer('Enter a valid id please')
+    .min(1, 'ID should not be None')
+    .required('ID is required')
 });
 
 function Request({requestId, setRequestId, setPassId, setSnackbar}) {
@@ -133,11 +133,11 @@ function Request({requestId, setRequestId, setPassId, setSnackbar}) {
                                 name="id"
                                 label="ID"
                                 type='number'
-                                value={formikFetch.values.value}
+                                value={formikFetch.values.id}
                                 placeholder="1"
                                 onChange={formikFetch.handleChange}
-                                error={formikFetch.touched.value && Boolean(formikFetch.errors.value)}
-                                helperText={formikFetch.touched.value && formikFetch.errors.value}
+                                error={formikFetch.touched.id && Boolean(formikFetch.errors.id)}
+                                helperText={formikFetch.touched.id && formikFetch.errors.id}
                                 color="background"
                                 variant="outlined"
                                 sx={textStyle}
