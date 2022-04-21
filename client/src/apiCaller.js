@@ -1,4 +1,4 @@
-const base_url = 'http://localhost:8080'
+const base_url = 'http://68.183.239.165'
 
 export async function apiCaller(api, body = {}) {
   try {
