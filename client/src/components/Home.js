@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardActions, Typography, Grid, TextField, Button, NativeSelect, Divider } from '@mui/material';    
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -24,7 +25,9 @@ const validationSchemaSubmit = yup.object({
 });
 
 function Home({setSnackbar}) {
-    const [attrs, setAttrs] = useState([{id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
+    const [attrs, setAttrs] = useState([]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
+
+    const navigate = useNavigate();
 
     const colorText1 = '#fcfefe';
     const colorText2 = '#97989c';
@@ -36,12 +39,13 @@ function Home({setSnackbar}) {
     useEffect(() => {
         apiCaller('/api/recon/attribute/list/fetch').then(([data, err]) => {
             if (err === undefined) {
+                setSnackbar({msg: 'Attribute: Fetch Successful!', type: 'success'});
                 setAttrs(data.attributes);
             } else {
                 console.log(err);
                 setSnackbar({msg: 'Attribute Error: ' + err, type: 'error'});
             }
-        })
+        });
     }, []);
 
     const textLabel = {
@@ -94,7 +98,8 @@ function Home({setSnackbar}) {
         onSubmit: async (values) => {
             const [data, err] = await apiCaller('/api/recon/request/submit', {attribute: values});
             if (err === undefined) {
-
+                setSnackbar({msg: 'Request: Submit Successful!', type: 'success'});
+                navigate('/request', { replace: true });
             } else {
                 console.log(err);
                 setSnackbar({msg: 'Submission Error: ' + err, type: 'error'});
