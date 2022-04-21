@@ -48,6 +48,14 @@ function Home({setSnackbar}) {
         });
     }, []);
 
+    const textHeading = {
+        // flexGrow: 1,
+        fontWeight: 'bold',
+        fontSize: 40,
+        color: colorQuaternary,
+        flex: '1 1 100%'
+    }
+
     const textLabel = {
         flexGrow: 1,
         fontWeight: 'bold',
@@ -108,11 +116,14 @@ function Home({setSnackbar}) {
     });
 
     return (
-        <Grid container direction='column' justifyContent='center' alignItems='center' alignContent='center' alignSelf='center' pt={20}>
+        <Grid container direction='column' justifyContent='center' alignItems='center' alignContent='center' alignSelf='center' pt={12}>
             <Grid item>
                 <Card elevation={2} sx={{backgroundColor: '#282835', width: 520, maxHeight: 600,}}>
                     <CardContent>
                         <Grid container direction='column' spacing={2}>
+                            <Grid item>
+                                <Typography sx={textHeading}>New Request</Typography>
+                            </Grid>
                             <Grid item>
                                 <Typography sx={textLabel}>Attribute</Typography>
                                 <NativeSelect

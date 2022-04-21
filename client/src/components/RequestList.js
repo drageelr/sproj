@@ -66,7 +66,7 @@ function RequestList({setRequestId, setSnackbar}) {
     }, [])
 
     return (
-        <Grid container direction='column' justifyContent='center' alignItems='center' alignContent='center' alignSelf='center' pt={20}>
+        <Grid container direction='column' justifyContent='center' alignItems='center' alignContent='center' alignSelf='center' pt={12}>
         <Grid item>
             <EnhancedTable rows={rows} tableName='Requests' headCells={headCells} keys={keys} link='/request' setId={setRequestId}/>
         </Grid>

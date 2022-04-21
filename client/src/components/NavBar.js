@@ -5,6 +5,7 @@ import CameraIcon from '@mui/icons-material/Camera';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 function NavBar() {
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -77,6 +78,7 @@ function NavBar() {
                 <Grid container direction='column' justifyContent='flex-end' sx={{pt: 2}}>
                     <RoundLinkButton link={'/'} icon={<HomeIcon fontSize='large'/>} title={'Home'}/>
                     <RoundLinkButton link={'/request-list'} icon={<ViewListIcon fontSize='large'/>} title={'Request List'}/>
+                    <RoundLinkButton link={'/request'} icon={<FindInPageIcon fontSize='large'/>} title={'Request'}/>
                 </Grid>
                 <Divider sx={{backgroundColor: '#00abc6'}}/>
             </Drawer>
