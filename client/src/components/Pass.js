@@ -79,8 +79,8 @@ const validationSchemaFetch = yup.object({
 });
 
 function Pass({requestId, setRequestId, passId, setPassId, setSnackbar}) {
-    const [matrix, setMatrix] = useState([[{name: 'Primary Email', value: 'xyz@gmail.com'}, {name: 'Secondary Email', value: 'abc@gmail.com'}], [{name: 'Primary Phone', value: '+923111222333'}, {name: 'Secondary Phone', value: '+923444555666'}]]);
-    const [tables, setTables] = useState([{id: 1, name: 'Email Tool'}, {id: 2, name: 'Phone Tool'}]);
+    const [matrix, setMatrix] = useState([]); // [{name: 'Primary Email', value: 'xyz@gmail.com'}, {name: 'Secondary Email', value: 'abc@gmail.com'}], [{name: 'Primary Phone', value: '+923111222333'}, {name: 'Secondary Phone', value: '+923444555666'}]
+    const [tables, setTables] = useState([]); // {id: 1, name: 'Email Tool'}, {id: 2, name: 'Phone Tool'}
 
     useEffect(() => {
         if (requestId !== undefined && passId !== undefined) {
