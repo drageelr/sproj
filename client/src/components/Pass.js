@@ -86,6 +86,7 @@ function Pass({requestId, setRequestId, passId, setPassId, setSnackbar}) {
         if (requestId !== undefined && passId !== undefined) {
             apiCaller('/api/recon/request/pass/fetch', {requestId: requestId, passId: passId}).then(([data, err]) => {
                 if (err === undefined) {
+                    const data = data.data;
                     setSnackbar({msg: 'Pass: Fetch Successful!', type: 'success'});
                     const myTables = data.tools.map((obj) => ({id: obj.id, name: obj.name}))
                     const myMatrix = data.tools.map((obj) => {

@@ -40,7 +40,7 @@ function Home({setSnackbar}) {
         apiCaller('/api/recon/attribute/list/fetch').then(([data, err]) => {
             if (err === undefined) {
                 setSnackbar({msg: 'Attribute: Fetch Successful!', type: 'success'});
-                setAttrs(data.attributes);
+                setAttrs(data.data.attributes);
             } else {
                 console.log(err);
                 setSnackbar({msg: 'Attribute Error: ' + err, type: 'error'});
@@ -104,7 +104,7 @@ function Home({setSnackbar}) {
         },
         validationSchema: validationSchemaSubmit,
         onSubmit: async (values) => {
-            const [data, err] = await apiCaller('/api/recon/request/submit', {attribute: values});
+            const [data, err] = await apiCaller('/api/recon/request/submit', {attribute: {id: values.id, value: values.value}, maxPasses: values.maxPasses});
             if (err === undefined) {
                 setSnackbar({msg: 'Request: Submit Successful!', type: 'success'});
                 navigate('/request', { replace: true });
