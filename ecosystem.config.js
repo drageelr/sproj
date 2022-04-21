@@ -7,7 +7,7 @@ module.exports = {
       script : "./server/bin/www.js"
     },{
         name   : "tool-controller",
-        script : "./tool-controller/tool-controller.js"
+        script : "./tool-controller/SynapsInt-Email/tool-controller.js"
     }]
   }
   
