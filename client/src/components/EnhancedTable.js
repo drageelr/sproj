@@ -191,7 +191,7 @@ function EnhancedTable({rows, tableName, headCells, keys, link, setId}) {
                                             }
                                             {
                                                 keys[k] === 'boolean' &&
-                                                (row[k] === 1 ? <CheckCircleIcon sx={{color: colorGreen}}/> : <CancelIcon sx={{color: colorRed}}/>)
+                                                ((row[k] === 1 || row[k] === '1') ? <CheckCircleIcon sx={{color: colorGreen}}/> : <CancelIcon sx={{color: colorRed}}/>)
                                             }
                                             {
                                                 keys[k] === 'button' &&

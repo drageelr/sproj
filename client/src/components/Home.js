@@ -24,7 +24,7 @@ const validationSchemaSubmit = yup.object({
     .required('Attribute is required')
 });
 
-function Home({setSnackbar}) {
+function Home({setSnackbar, setRequestId}) {
     const [attrs, setAttrs] = useState([]); // {id: 1, name: 'Email'}, {id: 2, name: 'Phone Number'}
 
     const navigate = useNavigate();
@@ -107,6 +107,7 @@ function Home({setSnackbar}) {
             const [data, err] = await apiCaller('/api/recon/request/submit', {attribute: {id: values.id, value: values.value}, maxPasses: values.maxPasses});
             if (err === undefined) {
                 setSnackbar({msg: 'Request: Submit Successful!', type: 'success'});
+                setRequestId(data.data.id);
                 navigate('/request', { replace: true });
             } else {
                 console.log(err);

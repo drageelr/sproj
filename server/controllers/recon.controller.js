@@ -46,7 +46,7 @@ exports.fetchReconRequest = async (req, res, next) => {
 
         if (!reqRequset.length) { throw new customError.NotFoundError('no request found'); }
 
-        let reqPasses = await db.query('SELECT id, createdAt, completedAt FROM Pass WHERE requestId = ' + params.requestId + ';');
+        let reqPasses = await db.query('SELECT id, createdAt, completedAt, completed FROM Pass WHERE requestId = ' + params.requestId + ';');
 
         res.json({
             statusCode: 200,

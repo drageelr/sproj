@@ -22,7 +22,7 @@ function App() {
             <NavBar resetStates={resetStates}/>
             <SnackBar snackbar={snackbar} setSnackbar={setSnackbar}/>
             <Routes>
-                <Route path='/' element={<Home setSnackbar={setSnackbar}/>}/>
+                <Route path='/' element={<Home setSnackbar={setSnackbar} setRequestId={setRequestId}/>}/>
                 <Route path='/request-list' element={<RequestList setSnackbar={setSnackbar} setRequestId={setRequestId}/>}/>
                 <Route path='/request' element={<Request setSnackbar={setSnackbar} requestId={requestId} setRequestId={setRequestId} setPassId={setPassId}/>}/>
                 <Route path='/pass' element={<Pass setSnackbar={setSnackbar} requestId={requestId} setRequestId={setRequestId} passId={passId} setPassId={setPassId}/>}/>

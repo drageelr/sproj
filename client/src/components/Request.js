@@ -93,18 +93,23 @@ function Request({requestId, setRequestId, setPassId, setSnackbar}) {
 
     useEffect(() => {
         if (requestId !== undefined) {
-            apiCaller('/api/recon/request/fetch', {requestId: requestId}).then(([data, err]) => {
-                if (err === undefined) {
-                    const dataObj = data.data;
-                    setSnackbar({msg: 'Request: Fetch Successful!', type: 'success'});
-                    setRows(dataObj.passes);
-                } else {
-                    console.log(err);
-                    setSnackbar({msg: 'Request Error: ' + err, type: 'error'});
-                }
-            });
+            apiFunc();
         }
     }, [requestId]);
+
+    const apiFunc = () => {
+        apiCaller('/api/recon/request/fetch', {requestId: requestId}).then(([data, err]) => {
+            if (err === undefined) {
+                console.log(data);
+                const dataObj = data.data;
+                setSnackbar({msg: 'Request: Fetch Successful!', type: 'success'});
+                setRows(dataObj.passes);
+            } else {
+                console.log(err);
+                setSnackbar({msg: 'Request Error: ' + err, type: 'error'});
+            }
+        });
+    }
 
     const formikFetch = useFormik({
         initialValues: {
@@ -112,7 +117,11 @@ function Request({requestId, setRequestId, setPassId, setSnackbar}) {
         },
         validationSchema: validationSchemaFetch,
         onSubmit: (values) => {
-            setRequestId(values.id);
+            if (values.id === requestId) {
+                apiFunc();
+            } else {
+                setRequestId(values.id);
+            }
         }
     });
 

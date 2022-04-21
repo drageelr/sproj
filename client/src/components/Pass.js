@@ -84,24 +84,28 @@ function Pass({requestId, setRequestId, passId, setPassId, setSnackbar}) {
 
     useEffect(() => {
         if (requestId !== undefined && passId !== undefined) {
-            apiCaller('/api/recon/request/pass/fetch', {requestId: requestId, passId: passId}).then(([data, err]) => {
-                if (err === undefined) {
-                    console.log(data);
-                    const dataObj = data.data;
-                    setSnackbar({msg: 'Pass: Fetch Successful!', type: 'success'});
-                    const myTables = dataObj.tools.map((obj) => ({id: obj.id, name: obj.name}))
-                    const myMatrix = dataObj.tools.map((obj) => {
-                        return obj.result.map((objR) => ({name: objR.name, value: objR.value}))
-                    })
-                    setMatrix(myMatrix);
-                    setTables(myTables);
-                } else {
-                    console.log(err);
-                    setSnackbar({msg: 'Pass Error: ' + err, type: 'error'});
-                }
-            });
+            apiFunc();
         }
     }, [requestId, passId]);
+
+    const apiFunc = () => {
+        apiCaller('/api/recon/request/pass/fetch', {requestId: requestId, passId: passId}).then(([data, err]) => {
+            if (err === undefined) {
+                console.log(data);
+                const dataObj = data.data;
+                setSnackbar({msg: 'Pass: Fetch Successful!', type: 'success'});
+                const myTables = dataObj.tools.map((obj) => ({id: obj.id, name: obj.name}))
+                const myMatrix = dataObj.tools.map((obj) => {
+                    return obj.result.map((objR) => ({name: objR.name, value: objR.value}))
+                })
+                setMatrix(myMatrix);
+                setTables(myTables);
+            } else {
+                console.log(err);
+                setSnackbar({msg: 'Pass Error: ' + err, type: 'error'});
+            }
+        });
+    }
 
     const formikFetch = useFormik({
         initialValues: {
@@ -110,8 +114,12 @@ function Pass({requestId, setRequestId, passId, setPassId, setSnackbar}) {
         },
         validationSchema: validationSchemaFetch,
         onSubmit: (values) => {
-            setRequestId(values.requestId);
-            setPassId(values.passId);
+            if (values.requestId === requestId && values.passId === passId) {
+                apiFunc();
+            } else {
+                setRequestId(values.requestId);
+                setPassId(values.passId);
+            }
         }
     });
 
