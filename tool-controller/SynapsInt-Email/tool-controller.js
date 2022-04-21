@@ -16,6 +16,31 @@ const socket = io("ws://localhost:" + process.env.DSP_PORT + '/?type=tool&passwo
 // Connect with the databse
 db.con.connect();
 
+const attrIdMap = {
+    "blacklist": 1,
+    "malicious activity": 2,
+    "recent malicious activity": 3,
+    "leaked credentials": 4,
+    "recent leaked credentials": 5,
+    "data breach": 6,
+    "first seen": 7,
+    "last seen": 8,
+    "domain exists": 9,
+    "domain reputation": 10,
+    "new domain": 11,
+    "days since domain creation": 12,
+    "suspicios tld": 13,
+    "spam": 14,
+    "free provider": 15,
+    "disposable": 16,
+    "deliverable": 17,
+    "accept all": 18,
+    "valid mx": 19,
+    "spoofable": 20,
+    "spf strict": 21,
+    "dmarc enforced": 22
+}
+
 socket.on('RES|job-dispatched', async (res) => {
     /**
      * res = {requestId: Int, passId: Int, passResultId: Int}
@@ -30,7 +55,7 @@ socket.on('RES|job-dispatched', async (res) => {
      * Write implementation here for Tool Script integration
      */
 
-    exec('python3 ../tool-scripts/synapsint.py ' + reqValue[0].value, async (error, stdout, stderr) => {
+    exec('python3 ../../tool-scripts/synapsint.py ' + reqValue[0].value + ' email', async (error, stdout, stderr) => {
         const result = JSON.parse(stdout);
         console.log(result);
         
@@ -45,7 +70,9 @@ socket.on('RES|job-dispatched', async (res) => {
         let i = 1;
         for (let attr in result) {
             console.log('attr', i, attr)
-            await db.query('INSERT INTO Pass_Result (passId, requestId, value, toolOutId, toolId) VALUES (' + res.passId + ', ' + res.requestId + ', "' + attr + '", ' + i + ', ' + process.env.TOOL_ID + ');');
+            if (attrIdMap[attr]) {
+                await db.query('INSERT INTO Pass_Result (passId, requestId, value, toolOutId, toolId) VALUES (' + res.passId + ', ' + res.requestId + ', "' + result[attr] + '", ' + attrIdMap[attr] + ', ' + process.env.TOOL_ID + ');');
+            }
             i++;
         }
         
