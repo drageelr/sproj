@@ -56,9 +56,9 @@ function RequestList({setRequestId, setSnackbar}) {
     useEffect(() => {
         apiCaller('/api/recon/request/list/fetch').then(([data, err]) => {
             if (err === undefined) {
-                const data = data.data;
+                const dataObj = data.data;
                 setSnackbar({msg: 'Request List: Fetch Successful!', type: 'success'});
-                setRows(data.requests);
+                setRows(dataObj.requests);
             } else {
                 console.log(err);
                 setSnackbar({msg: 'Request List Error: ' + err, type: 'error'});

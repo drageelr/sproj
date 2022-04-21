@@ -74,7 +74,7 @@ const validationSchemaFetch = yup.object({
     passId: yup
     .number('Enter a valid pass id')
     .integer('Enter a valid pass id please')
-    .min(1, 'Pass ID should not be None')
+    .min(0, 'Pass ID should not be greater than or equal to 0')
     .required('Pass ID is required')
 });
 
@@ -86,10 +86,11 @@ function Pass({requestId, setRequestId, passId, setPassId, setSnackbar}) {
         if (requestId !== undefined && passId !== undefined) {
             apiCaller('/api/recon/request/pass/fetch', {requestId: requestId, passId: passId}).then(([data, err]) => {
                 if (err === undefined) {
-                    const data = data.data;
+                    console.log(data);
+                    const dataObj = data.data;
                     setSnackbar({msg: 'Pass: Fetch Successful!', type: 'success'});
-                    const myTables = data.tools.map((obj) => ({id: obj.id, name: obj.name}))
-                    const myMatrix = data.tools.map((obj) => {
+                    const myTables = dataObj.tools.map((obj) => ({id: obj.id, name: obj.name}))
+                    const myMatrix = dataObj.tools.map((obj) => {
                         return obj.result.map((objR) => ({name: objR.name, value: objR.value}))
                     })
                     setMatrix(myMatrix);

@@ -80,14 +80,14 @@ exports.fetchReconRequestPass = async (req, res, next) => {
         if (!reqToolInfo[0].length) {
             let inputData = await db.query('SELECT name, type FROM In_Attr WHERE id = ' + reqPassResult[0].inAttrId)
             res.json({
-                statusCode: 201,
+                statusCode: 200,
                 message: 'Request List Fetched Successfully!',
                 data: {
-                    input: {
+                    tools: [{id: 0, name: 'User Input', result: [{
                         name: inputData[0].name,
                         type: inputData[0].type,
                         value: reqPassResult[0].value
-                    }
+                    }]}]
                 }
             })
         } else {

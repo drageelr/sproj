@@ -95,9 +95,9 @@ function Request({requestId, setRequestId, setPassId, setSnackbar}) {
         if (requestId !== undefined) {
             apiCaller('/api/recon/request/fetch', {requestId: requestId}).then(([data, err]) => {
                 if (err === undefined) {
-                    const data = data.data;
+                    const dataObj = data.data;
                     setSnackbar({msg: 'Request: Fetch Successful!', type: 'success'});
-                    setRows(data.passes);
+                    setRows(dataObj.passes);
                 } else {
                     console.log(err);
                     setSnackbar({msg: 'Request Error: ' + err, type: 'error'});
