@@ -55,7 +55,8 @@ socket.on('RES|job-dispatched', async (res) => {
      * Write implementation here for Tool Script integration
      */
 
-    exec('python3 ../../tool-scripts/synapsint.py ' + reqValue[0].value + ' email', async (error, stdout, stderr) => {
+    exec('python3 ../../tool-scripts/SynapsInt.py ' + reqValue[0].value + ' email', async (error, stdout, stderr) => {
+        console.log(stdout);
         const result = JSON.parse(stdout);
         console.log(result);
         

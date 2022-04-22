@@ -36,8 +36,11 @@ class Synapsint:
 
     def generate_driver(self):
         options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
         options.headless = True
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome('/root/chromedriver',options=options)
         self.driver.get('https://synapsint.com/')
 
     def place_data(self):
