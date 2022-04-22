@@ -57,7 +57,7 @@ socket.on('RES|job-dispatched', async (res) => {
                 if (attr != 'Services') {
                     await db.query('INSERT INTO Pass_Result (passId, requestId, value, toolOutId, toolId) VALUES (' + res.passId + ', ' + res.requestId + ', "' + result[attr] + '", ' + attrIdMap[attr] + ', ' + process.env.TOOL_ID + ');');
                 } else {
-                    for (let val in result[attr]) {
+                    for (let val of result[attr]) {
                         await db.query('INSERT INTO Pass_Result (passId, requestId, value, toolOutId, toolId) VALUES (' + res.passId + ', ' + res.requestId + ', "' + val + '", ' + attrIdMap[attr] + ', ' + process.env.TOOL_ID + ');');
                     }
                 }
