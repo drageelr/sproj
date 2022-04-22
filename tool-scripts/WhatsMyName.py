@@ -24,6 +24,8 @@ class WhatsMyName:
         options.add_argument("--disable-site-isolation-trials")
         options.add_argument("--log-level=3")
         options.add_argument("--disable-extensions")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         options.headless = True
         driver = webdriver.Chrome(path,options=options) 
         url = 'https://whatsmyname.app/?q=' + self._searchVal
