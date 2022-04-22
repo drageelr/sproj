@@ -17,7 +17,22 @@ def handleEmailResults(driver):
     return output_obj
 
 def handleIPResults(driver):
-    pass
+    output_obj = {}
+    card = driver.find_element_by_xpath('/html/body/main/div/div[3]/div/div[2]')
+    result_table = driver.find_element_by_xpath('/html/body/main/div/div[4]/div/div[2]/div/table/tbody')
+    p_tags = card.find_elements_by_tag_name('p')
+    for tags in p_tags:
+        heading = str(tags.text).strip().lower().split(":")[0]
+        body = str(tags.text).strip().lower().split(":")[1].strip()
+        output_obj[heading] = body
+
+    result_rows = result_table.find_elements_by_tag_name('tr')
+    services = []
+    for r in result_rows:
+        r_data = r.find_elements_by_tag_name('td')
+        services.append(str(r_data[0].text).strip().lower())
+    output_obj["Services"] = services
+    return output_obj
 
 attr_handler_map = {
     'email': handleEmailResults,
