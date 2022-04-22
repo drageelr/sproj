@@ -13,7 +13,7 @@ class WhatsMyName:
 
     def search(self):
         osintResults = {}
-        path = "/home/drageelr/Tools/chromedriver_linux64/chromedriver" # '/root/chromedriver'
+        path = '/root/chromedriver' # '/root/chromedriver' "/home/drageelr/Tools/chromedriver_linux64/chromedriver" 
         options = Options()
         options.add_argument("--disable-web-security")
         options.add_argument('--allow-running-insecure-content')
