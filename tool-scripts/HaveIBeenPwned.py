@@ -44,7 +44,7 @@ class HaveIBeenPwned:
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.headless = True
-        self.driver = webdriver.Chrome('/home/drageelr/Tools/chromedriver_linux64/chromedriver',options=options) # /home/drageelr/Tools/chromedriver_linux64/chromedriver '/root/chromedriver'
+        self.driver = webdriver.Chrome('/root/chromedriver', options=options) # /home/drageelr/Tools/chromedriver_linux64/chromedriver '/root/chromedriver'
         self.driver.get('https://haveibeenpwned.com')
 
     def place_data(self):
